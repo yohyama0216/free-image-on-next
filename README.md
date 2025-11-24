@@ -181,10 +181,16 @@ GitHub Pages は以下のように設定されています：
      "height": 1080,
      "fileSize": 234567,
      "slug": "new-image",
+     "published": true,
      "createdAt": "2024-01-01T00:00:00+00:00",
      "updatedAt": "2024-01-01T00:00:00+00:00"
    }
    ```
+   
+   **公開フラグについて**:
+   - `"published": true` - ページを生成します（デフォルト）
+   - `"published": false` - ページを生成しません（下書き状態）
+   - フラグを省略した場合は `true` として扱われます
 
 4. **ビルドを実行**:
    ```bash

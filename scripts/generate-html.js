@@ -288,9 +288,13 @@ function main() {
     return;
   }
   
-  console.log(`Found ${items.length} items to process`);
+  // 公開フラグでフィルタリング（published が true または未定義の場合は生成）
+  const publishedItems = items.filter(item => item.published !== false);
+  const skippedCount = items.length - publishedItems.length;
   
-  items.forEach((item, index) => {
+  console.log(`Found ${items.length} items (${publishedItems.length} published, ${skippedCount} skipped)`);
+  
+  publishedItems.forEach((item, index) => {
     try {
       // アイテムディレクトリを作成
       const itemDir = path.join(outputDir, item.id);
@@ -298,8 +302,8 @@ function main() {
         fs.mkdirSync(itemDir, { recursive: true });
       }
       
-      // 関連素材を取得
-      const relatedItems = getRelatedItems(item, items);
+      // 関連素材を取得（公開済みのものだけ）
+      const relatedItems = getRelatedItems(item, publishedItems);
       
       // HTMLを生成
       const html = generateDetailHTML(item, relatedItems);
