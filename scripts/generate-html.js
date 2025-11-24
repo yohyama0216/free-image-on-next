@@ -236,7 +236,7 @@ function generateDetailHTML(item, relatedItems) {
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <script src="../../includes/nav.js"></script>
 </body>
 </html>
@@ -250,11 +250,11 @@ function getRelatedItems(currentItem, allItems, maxCount = 3) {
   
   for (const item of allItems) {
     if (item.id === currentItem.id) continue;
-    if (related.length >= maxCount) break;
     
     // 同じカテゴリまたは重複するタグがある場合
     if (item.category === currentItem.category) {
       related.push(item);
+      if (related.length >= maxCount) break;
       continue;
     }
     
@@ -262,10 +262,11 @@ function getRelatedItems(currentItem, allItems, maxCount = 3) {
     const hasCommonTag = currentTags.some(tag => itemTags.includes(tag));
     if (hasCommonTag) {
       related.push(item);
+      if (related.length >= maxCount) break;
     }
   }
   
-  return related.slice(0, maxCount);
+  return related;
 }
 
 // メイン処理
