@@ -6,7 +6,7 @@
 
 このサイトは GitHub Pages でホスティングされています。
 
-**公開URL**: https://yohyama0216.github.io/yohyama0216.github.io-free-image-material-/
+**公開URL**: https://yohyama0216.github.io/free-image-on-next/
 
 ### サイトURLの確認方法
 
@@ -104,7 +104,7 @@ GitHub Pages は以下のように設定されています：
 
 - **Source**: GitHub Actions
 - **出力ディレクトリ**: `./out`
-- **ベースパス**: `/yohyama0216.github.io-free-image-material-/`
+- **ベースパス**: `/free-image-on-next/`
 
 設定を確認・変更する場合：
 1. リポジトリの Settings > Pages を開く
@@ -129,7 +129,7 @@ GitHub Pages は以下のように設定されています：
 ### ページが表示されない場合
 
 1. **URL を確認**:
-   - ベースパスが正しいか確認（`/yohyama0216.github.io-free-image-material-/`）
+   - ベースパスが正しいか確認（`/free-image-on-next/`）
    - `next.config.js` の `basePath` と `assetPrefix` が正しく設定されているか確認
 
 2. **デプロイ完了を待つ**:
