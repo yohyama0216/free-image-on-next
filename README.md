@@ -50,11 +50,12 @@ npm run dev
 ### 利用可能なスクリプト
 
 - `npm run dev` - 開発サーバーを起動
-- `npm run build` - WebP画像を生成し、プロダクションビルドを作成
-- `npm run build:quick` - WebP生成をスキップして高速ビルド
+- `npm run build` - WebP画像を生成し、HTML詳細ページを生成し、プロダクションビルドを作成
+- `npm run build:quick` - WebP生成とHTML生成をスキップして高速ビルド
 - `npm start` - プロダクションサーバーを起動
 - `npm run lint` - ESLintでコードをチェック
 - `npm run generate-webp` - WebP画像を生成
+- `npm run generate-html` - assets.jsonから各素材の詳細HTMLページを生成
 
 ## デプロイ方法
 
@@ -93,10 +94,13 @@ GitHub Actions ワークフローは以下のステップを実行します：
 
 1. **依存関係のインストール**: `npm ci`
 2. **WebP画像の生成**: `npm run generate-webp`
-3. **Next.jsビルド**: `next build`
+3. **HTML詳細ページの生成**: `npm run generate-html`
+   - `assets.json` に定義されたすべての素材に対して、`items/{id}/index.html` 形式でHTMLファイルを生成
+   - 各ページには素材の詳細情報、メタデータ、OGPタグ、関連素材が含まれます
+4. **Next.jsビルド**: `next build`
    - 静的エクスポート（`output: 'export'`）を使用
    - ビルド成果物は `out` ディレクトリに出力
-4. **GitHub Pages へのデプロイ**: `out` ディレクトリの内容をデプロイ
+5. **GitHub Pages へのデプロイ**: `out` ディレクトリの内容をデプロイ
 
 ### GitHub Pages の設定
 
@@ -144,3 +148,66 @@ GitHub Pages は以下のように設定されています：
 - **画像最適化**: Sharp (WebP生成)
 - **ホスティング**: GitHub Pages
 - **CI/CD**: GitHub Actions
+
+## 新しい画像素材の追加方法
+
+新しい画像素材をサイトに追加する手順：
+
+1. **画像ファイルを配置**:
+   ```bash
+   # カテゴリに応じたフォルダに画像を配置
+   public/assets/interior/new-image.jpg
+   public/assets/pattern/new-pattern.png
+   ```
+
+2. **サムネイルを作成**:
+   ```bash
+   # サムネイル用のフォルダに小さいバージョンを配置
+   public/assets/_thumbs/new-image_thumb.jpg
+   ```
+
+3. **assets.json に情報を追加**:
+   ```json
+   {
+     "id": "new-image",
+     "title": "新しい画像",
+     "category": "interior",
+     "tags": ["タグ1", "タグ2"],
+     "description": "画像の説明",
+     "license": "CC0-1.0",
+     "originalPath": "assets/interior/new-image.jpg",
+     "thumbnailPath": "assets/_thumbs/new-image_thumb.jpg",
+     "width": 1920,
+     "height": 1080,
+     "fileSize": 234567,
+     "slug": "new-image",
+     "published": true,
+     "createdAt": "2024-01-01T00:00:00+00:00",
+     "updatedAt": "2024-01-01T00:00:00+00:00"
+   }
+   ```
+   
+   **公開フラグについて**:
+   - `"published": true` - ページを生成します（デフォルト）
+   - `"published": false` - ページを生成しません（下書き状態）
+   - フラグを省略した場合は `true` として扱われます
+
+4. **ビルドを実行**:
+   ```bash
+   npm run build
+   # または個別に実行
+   npm run generate-html  # HTML詳細ページを生成
+   npm run generate-webp  # WebP画像を生成
+   ```
+
+5. **コミットしてプッシュ**:
+   ```bash
+   git add .
+   git commit -m "Add new image: new-image"
+   git push
+   ```
+
+自動的に以下が生成されます：
+- `items/new-image/index.html` - 詳細ページ
+- WebP形式の画像ファイル
+- サムネイルのWebP版
