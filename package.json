@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run generate-webp && next build",
+    "build": "npm run generate-webp && npm run generate-html && next build",
     "build:quick": "next build",
     "start": "next start",
     "lint": "next lint",
     "export": "next build && next export",
-    "generate-webp": "node scripts/generate-webp.js"
+    "generate-webp": "node scripts/generate-webp.js",
+    "generate-html": "node scripts/generate-html.js"
   },
   "dependencies": {
     "next": "14.0.0",
